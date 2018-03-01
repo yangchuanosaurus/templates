@@ -11,12 +11,24 @@ module Template
 			version = params[1]
 			puts "execute init #{name}, #{version}"
 
-			thing = YAML.load_file('./templates/templates.yml')
-			thing['name'] = name
-			thing['version'] = version
-			file = Io.init_file(thing.to_yaml)
+			# create templates.yml, which is used for define the name, and version (major-version, sub-version, minor-version)
+			template_definition = Hash.new
+			template_definition['template-center'] = 'http://center.code-template.org'
+			template_definition['name'] = name
+			template_definition['version-string'] = version
+			template_definition['version'] = version.split('.').map { |v| v.to_i }
+			dependency_system = 
+			template_definition['vocabulary'] = {
+				'copy' => ["folder1", "folder2"], 
+				'dependency' => {
+					'gradle' => '3.0.1', 
+					'dependencies' => ['a', 'b']
+				}
+			}
+			template_definition['templates'] = {'SampleTemplate' => '1.0.0', "OtherTemplate" => 'latest'}
+			templates_file = Io.init_template_file(template_definition.to_yaml)
 
-			"#{file} created."
+			"#{templates_file} created."
 		end
 
 		def self.use
@@ -25,6 +37,10 @@ module Template
 
 		def self.upgrade
 			puts "execute upgrade"
+		end
+
+		def self.publish
+			puts "execute publish"
 		end
 	end
 

@@ -6,10 +6,11 @@ require_relative '../lib/templatecli'
 
 def usage
 	puts "usage: templatescli init | use | remove | upgrade"
+	puts "usage: templatescli publish"
 	exit(1)
 end
 
-VERBS = ['init', 'use', 'remove', 'upgrade']
+VERBS = ['init', 'use', 'remove', 'upgrade', 'publish']
 
 if VERBS.include? ARGV.first
   @verb = ARGV.shift
