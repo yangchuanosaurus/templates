@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
+
+require_relative '../lib/templatecli'
+
+def usage
+	puts "usage: templatescli init | use | remove | upgrade"
+	exit(1)
+end
+
+VERBS = ['init', 'use', 'remove', 'upgrade']
+
+if VERBS.include? ARGV.first
+  @verb = ARGV.shift
+else
+  @verb = nil
+end
+
+usage unless !@verb.nil?
+
+Template::Command.send(@verb, *ARGV) rescue puts "invalidate args of `#{@verb}`"
