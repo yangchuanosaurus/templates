@@ -19,4 +19,12 @@ end
 
 usage unless !@verb.nil?
 
-Template::Command.send(@verb, *ARGV) rescue puts "invalidate args of `#{@verb}`"
+begin
+	results = Template::Command.send(@verb, *ARGV)
+	puts "\t#{results}"
+rescue Exception => e
+	puts e
+	puts "invalidate args of `#{@verb}`"
+ensure
+
+end

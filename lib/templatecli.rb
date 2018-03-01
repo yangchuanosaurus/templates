@@ -1,3 +1,7 @@
+require 'yaml'
+
+require_relative 'core/io'
+
 module Template
 	class Command
 		def self.init(*params)
@@ -6,6 +10,13 @@ module Template
 			name 		= params[0]
 			version = params[1]
 			puts "execute init #{name}, #{version}"
+
+			thing = YAML.load_file('./templates/templates.yml')
+			thing['name'] = name
+			thing['version'] = version
+			file = Io.init_file(thing.to_yaml)
+
+			"#{file} created."
 		end
 
 		def self.use
