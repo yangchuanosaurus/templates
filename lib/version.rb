@@ -5,4 +5,5 @@ module Template
   def self.version
     VERSION
   end
+  
 end

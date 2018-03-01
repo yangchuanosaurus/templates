@@ -1,5 +1,6 @@
 module Template
 	class Io
+
 		def self.init_template_file(content)
 			template_file = "./template_define.yml"
 			mode = "w"
@@ -9,5 +10,6 @@ module Template
 
 			template_file
 		end
+		
 	end
 end

@@ -4,6 +4,7 @@ require_relative 'core/io'
 
 module Template
 	class Command
+
 		def self.init(*params)
 			raise ParamsError.new("Usage: templatecli init name version") until params.size == 2
 			
@@ -42,6 +43,7 @@ module Template
 		def self.publish
 			puts "execute publish"
 		end
+		
 	end
 
 	class ParamsError < StandardError
