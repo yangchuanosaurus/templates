@@ -1,3 +1,20 @@
 ---
+template-center: http://center.code-template.org
 name: name
-version: 1.0.0
+version-string: 1.0.0
+version:
+- 1
+- 0
+- 0
+vocabulary:
+  copy:
+  - folder1
+  - folder2
+  dependency:
+    gradle: 3.0.1
+    dependencies:
+    - a
+    - b
+templates:
+  SampleTemplate: 1.0.0
+  OtherTemplate: latest
