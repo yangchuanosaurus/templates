@@ -9,16 +9,10 @@ version:
 vocabulary:
   copy:
     source:
-    - folder1
-    - folder2
+    - template_project/template/src/main/
     resources:
-    - folder1
-    - folder2
+    - template_project/template/src/resources/
   dependency:
     gradle: 3.0.1
     dependencies:
-    - a
-    - b
-templates:
-  SampleTemplate: 1.0.0
-  OtherTemplate: latest
+    - org.zero:a:1.0.0

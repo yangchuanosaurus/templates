@@ -5,12 +5,12 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
 require_relative '../lib/templatecli'
 
 def usage
-	puts "usage: templatescli init | use | remove | upgrade"
+	puts "usage: templatescli init | use"
 	puts "usage: templatescli publish"
 	exit(1)
 end
 
-VERBS = ['init', 'use', 'remove', 'upgrade', 'publish']
+VERBS = ['init', 'use', 'publish']
 
 if VERBS.include? ARGV.first
   @verb = ARGV.shift
