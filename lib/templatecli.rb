@@ -20,7 +20,10 @@ module Template
 			template_definition['version'] = version.split('.').map { |v| v.to_i }
 			dependency_system = 
 			template_definition['vocabulary'] = {
-				'copy' => ["folder1", "folder2"], 
+				'copy' => {
+					'source' => ["folder1", "folder2"], 
+					"resources" => ["folder1", "folder2"]
+				}, 
 				'dependency' => {
 					'gradle' => '3.0.1', 
 					'dependencies' => ['a', 'b']
@@ -43,7 +46,7 @@ module Template
 		def self.publish
 			puts "execute publish"
 		end
-		
+
 	end
 
 	class ParamsError < StandardError

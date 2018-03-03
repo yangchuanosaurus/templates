@@ -8,8 +8,12 @@ version:
 - 0
 vocabulary:
   copy:
-  - folder1
-  - folder2
+    source:
+    - folder1
+    - folder2
+    resources:
+    - folder1
+    - folder2
   dependency:
     gradle: 3.0.1
     dependencies:
@@ -18,4 +22,3 @@ vocabulary:
 templates:
   SampleTemplate: 1.0.0
   OtherTemplate: latest
-
