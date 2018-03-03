@@ -62,8 +62,19 @@ module Template
 			end
 		end
 
-		def self.copy_directoy(src_path, dest_dir)
-			src_dir = Dir[src_path]
+		def self.create_directories(path)
+			dirname = path
+			tokens = dirname.split(/[\/\\]/)
+			1.upto(tokens.size) do |n|
+			  dir = tokens[0...n]
+			  dir = dir.join("/")
+			  Dir.mkdir(dir) unless Dir.exist?(dir)
+			end
+			tokens[0...tokens.size].join('/')
+		end
+
+		def self.copy_directories(src_path, dest_path)
+			FileUtils.cp_r(src_path + '.', dest_path, :verbose => true)
 		end
 
 	end

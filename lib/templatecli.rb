@@ -60,11 +60,15 @@ module Template
 			# copy source to destination
 			source_ary = template_dash['vocabulary']['copy']['source']
 			desination_src = template_use_dash['vocabulary']['copy']['source']
-			source_ary.each { |src| p "copy #{src} to #{desination_src}" }
+			Io.create_directories(desination_src)
+
+			source_ary.each { |src| Io.copy_directories(src, desination_src) }
 			# copy resource to destination
 			desination_res = template_use_dash['vocabulary']['copy']['resources']
 			resource_ary = template_dash['vocabulary']['copy']['resources']
-			resource_ary.each { |res| p "copy #{res} to #{desination_res}" }
+			Io.create_directories(desination_res)
+
+			resource_ary.each { |res| Io.copy_directories(res, desination_res) }
 
 			# dependency configure
 			dependency_plugin_dash = template_dash['vocabulary']['dependency'].select { |key, value| key != 'dependencies' }
