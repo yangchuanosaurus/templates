@@ -47,6 +47,36 @@ module Template
 			end
 		end
 
+		def self.init_template_center(center_dir)
+			template_center_file = './.template-center'
+			center_content = {
+				'name': 'template center of local file-system', 
+				'version': '1.0.0', 
+				'local': center_dir
+			}
+			mode = "w"
+			File.open(template_center_file, mode) do |file|
+				file.puts center_content.to_yaml
+			end
+			
+			template_global_file = "#{Dir.home}/.template-global"
+			File.open(template_global_file, mode) do |file|
+				file.puts center_content.to_yaml
+			end
+
+			"#{template_center_file} and #{template_global_file}"
+		end
+
+		def self.load_template_center?
+			template_global_file = "#{Dir.home}/.template-global"
+			if File.exist?(template_global_file)
+				center_dash = load_yaml(template_global_file)
+				return center_dash
+			else
+				return nil
+			end
+		end
+
 		def self.append_template_use_file(name, version)
 			template_use_file = './template_use.prj'
 			use_dash = YAML.load_file(template_use_file)

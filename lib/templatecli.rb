@@ -10,6 +10,15 @@ module Template
 			
 			name 		= params[0]
 			version = params[1]
+			if name.downcase == 'as'
+				if version == 'center'
+					init_as_center
+					return
+				else
+					raise ParamsError.new("Usage: templatecli init as center")
+				end
+			end
+
 			puts "execute init #{name}, #{version}"
 
 			# create templates.yml, which is used for define the name, and version (major-version, sub-version, minor-version)
@@ -35,6 +44,19 @@ module Template
 			"#{templates_file} created."
 		end
 
+		def self.init_as_center
+			puts "Using local file-system as a template center."
+
+			center_dir = File.dirname(__FILE__)
+			center_dir = center_dir.gsub(/lib$/, '')
+			# create .template-center
+			center_file = Io.init_template_center(center_dir)
+
+			puts "#{center_file} of #{center_dir} created."
+			# let templatecli knows where's the local template-center
+
+		end
+
 		def self.use(*params)
 			raise ParamsError.new("Usage: templatecli use name version[optional]") until params.size == 1 || params.size == 2
 
@@ -52,6 +74,11 @@ module Template
 			end
 
 			puts "execute use #{name} #{version}"
+
+			# Download templates
+			# Get the template information from center
+			# Download templates from git to ./.templates
+			# Start copy progress
 
 			# Skip download templates
 			template_dash = Io.load_template_file
@@ -83,6 +110,20 @@ module Template
 
 		def self.publish
 			puts "execute publish"
+			# Publish current template project to center
+			# Tell the center name, version, git address
+		end
+
+		def self.check
+			if dash = Io.load_template_center?
+				puts "Template center:"
+				dash.each do |key, value|
+					puts "\t#{key} = #{value}"
+				end
+				"=====Local template center exists."
+			else
+				"No template center initialize in local file-system."
+			end
 		end
 
 	end
