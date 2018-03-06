@@ -64,7 +64,7 @@ module Template
 				file.puts center_content.to_yaml
 			end
 
-			"#{template_center_file} and #{template_global_file}"
+			return template_center_file, template_global_file
 		end
 
 		def self.load_template_center?

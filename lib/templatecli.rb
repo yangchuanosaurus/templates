@@ -1,6 +1,8 @@
 require 'yaml'
 
 require_relative 'core/io'
+require_relative 'template/project'
+require_relative 'template/center'
 
 module Template
 
@@ -8,8 +10,9 @@ module Template
 
 		def self.init(*params)
 			logger = PrettyLogger.logger("main")
-			logger.add("templatecli init template_name version")
+			
 			if params.empty? || params.size < 2
+				logger.add("templatecli init template_name version")
 				logger.add_error("wrong arguments of `init`.")
 				return
 			end
@@ -18,7 +21,8 @@ module Template
 			version = params[1]
 			if name.downcase == 'as'
 				if version == 'center'
-					init_as_center
+					center = Center.new
+					center.init_as_center
 					return
 				else
 					logger.add_error("arguments of `init` should be `as center`.")
@@ -27,39 +31,10 @@ module Template
 			end
 
 			# create templates.yml, which is used for define the name, and version (major-version, sub-version, minor-version)
-			template_definition = Hash.new
-			template_definition['template-center'] = 'http://center.code-template.org'
-			template_definition['name'] = name
-			template_definition['version-string'] = version
-			template_definition['version'] = version.split('.').map { |v| v.to_i }
-			dependency_system = 
-			template_definition['vocabulary'] = {
-				'copy' => {
-					'source' => ["folder1", "folder2"], 
-					"resources" => ["folder1", "folder2"]
-				}, 
-				'dependency' => {
-					'gradle' => '3.0.1', 
-					'dependencies' => ['a', 'b']
-				}
-			}
-			template_definition['templates'] = {'SampleTemplate' => '1.0.0', "OtherTemplate" => 'latest'}
-			templates_file = Io.init_template_file(template_definition.to_yaml)
-
-			logger.add("#{templates_file} created.", 1)
-		end
-
-		def self.init_as_center
-			puts "Using local file-system as a template center."
-
-			center_dir = File.dirname(__FILE__)
-			center_dir = center_dir.gsub(/lib$/, '')
-			# create .template-center
-			center_file = Io.init_template_center(center_dir)
-
-			puts "#{center_file} of #{center_dir} created."
-			# let templatecli knows where's the local template-center
-
+			logger.add("templatecli init template_name version")
+			project = Project.new(name, version)
+			project.init
+			
 		end
 
 		def self.use(*params)
@@ -119,15 +94,16 @@ module Template
 			# Tell the center name, version, git address
 		end
 
-		def self.check
+		def self.info
+			logger = PrettyLogger.logger("main")
+
 			if dash = Io.load_template_center?
-				puts "Template center:"
+				logger.add("Template center:")
 				dash.each do |key, value|
-					puts "\t#{key} = #{value}"
+					logger.add("#{key} = #{value}", 1)
 				end
-				"=====Local template center exists."
 			else
-				"No template center initialize in local file-system."
+				logger.add_error("No template center initialize in local file-system.")
 			end
 		end
 
