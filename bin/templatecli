@@ -4,15 +4,22 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
 
 #require 'templatecli'
 require_relative '../lib/templatecli'
+require_relative '../lib/core/logger'
+
+@logger = PrettyLogger.logger("main")
 
 def usage
-	puts "usage: templatescli init | use"
-	puts "usage: templatescli check"
-	puts "usage: templatescli publish"
+	@logger.add("Do you want using following commands?")
+	@logger.add("init    | templatecli init name version", 1)
+	@logger.add("init    | templatecli init as center", 1)
+	@logger.add("use     | templatecli use name version", 1)
+	@logger.add("info    | templatecli info", 1)
+	@logger.add("publish | templatecli publish", 1)
+	@logger.log
 	exit(1)
 end
 
-VERBS = ['init', 'use', 'publish', 'check']
+VERBS = ['init', 'use', 'publish', 'info']
 
 if VERBS.include? ARGV.first
   @verb = ARGV.shift
@@ -24,7 +31,7 @@ usage unless !@verb.nil?
 
 begin
 	results = Template::Command.send(@verb, *ARGV)
-	puts "\t#{results}"
+	@logger.log
 rescue Exception => e
 	puts e
 	puts "invalidate args of `#{@verb}`"

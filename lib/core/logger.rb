@@ -63,20 +63,20 @@ module PrettyLogger
 
 end
 
-logger = PrettyLogger.logger("A")
-logger.add("Command: Init as a template project")
-logger.add("./template.prj created.", 1)
-logger.add("./files created.", 1)
-logger.log
+# logger = PrettyLogger.logger("A")
+# logger.add("Command: Init as a template project")
+# logger.add("./template.prj created.", 1)
+# logger.add("./files created.", 1)
+# logger.log
 
-logger.add("Command: Init as a template project")
-logger.add_error("failed no arg of name.")
-logger.add_error("failed no arg of version.")
-logger.log
+# logger.add("Command: Init as a template project")
+# logger.add_error("failed no arg of name.")
+# logger.add_error("failed no arg of version.")
+# logger.log
 
-logger.add("Command: Init as a template project")
-logger.add("Folder ./actions created.", 1)
-logger.add("./actions/file1 created. (* define something here)", 2)
-logger.add("./actions/file2 created. (* define something here)", 2)
-logger.add("./files created.", 1)
-logger.log
+# logger.add("Command: Init as a template project")
+# logger.add("Folder ./actions created.", 1)
+# logger.add("./actions/file1 created. (* define something here)", 2)
+# logger.add("./actions/file2 created. (* define something here)", 2)
+# logger.add("./files created.", 1)
+# logger.log

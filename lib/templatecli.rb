@@ -3,10 +3,16 @@ require 'yaml'
 require_relative 'core/io'
 
 module Template
+
 	class Command
 
 		def self.init(*params)
-			raise ParamsError.new("Usage: templatecli init name version") until params.size == 2
+			logger = PrettyLogger.logger("main")
+			logger.add("templatecli init template_name version")
+			if params.empty? || params.size < 2
+				logger.add_error("wrong arguments of `init`.")
+				return
+			end
 			
 			name 		= params[0]
 			version = params[1]
@@ -15,11 +21,10 @@ module Template
 					init_as_center
 					return
 				else
-					raise ParamsError.new("Usage: templatecli init as center")
+					logger.add_error("arguments of `init` should be `as center`.")
+					return
 				end
 			end
-
-			puts "execute init #{name}, #{version}"
 
 			# create templates.yml, which is used for define the name, and version (major-version, sub-version, minor-version)
 			template_definition = Hash.new
@@ -41,7 +46,7 @@ module Template
 			template_definition['templates'] = {'SampleTemplate' => '1.0.0', "OtherTemplate" => 'latest'}
 			templates_file = Io.init_template_file(template_definition.to_yaml)
 
-			"#{templates_file} created."
+			logger.add("#{templates_file} created.", 1)
 		end
 
 		def self.init_as_center
