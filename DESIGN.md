@@ -38,7 +38,7 @@ Using Template::Center.init to create ~/.template-center file, add url to addres
 As a template consumer, you could use a template within specific version from the local template center.
 
 Design
-Using Template::Migration.migrate to start migrate tasks base on template_project/template.prj and ./templates.yml
+Using Template::Migration.migrate to start migrate tasks base on template_project/template.prj and ./templates.prj
 Using "Template::MigrateCopy < Migrate" to copy required folder and files.
 Using "Template::MigrateGradleDependency < Migrate" to add gradle dependencies.
 Using "Template::MigrateMavenDependency < Migrate" to add maven dependencies.

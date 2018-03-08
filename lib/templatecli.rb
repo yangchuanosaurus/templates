@@ -3,6 +3,7 @@ require 'yaml'
 require_relative 'core/io'
 require_relative 'template/project'
 require_relative 'template/center'
+require_relative 'tasks/migration_copy'
 
 module Template
 
@@ -20,7 +21,7 @@ module Template
 			name 		= params[0]
 			version = params[1]
 			if name.downcase == 'as'
-				if version == 'center'
+				if version.downcase == 'center'
 					center = Center.new
 					center.init_as_center
 					return
@@ -38,54 +39,31 @@ module Template
 		end
 
 		def self.use(*params)
-			raise ParamsError.new("Usage: templatecli use name version[optional]") until params.size == 1 || params.size == 2
+			logger = PrettyLogger.logger("main")
+
+			if params.empty?
+				logger.add("templatecli use template_name version[optional]")
+				logger.add_error("wrong arguments of `use`.")
+				return
+			end
 
 			name 		= params[0]
 			version = params.size == 2 ? params[1] : 'latest'
+
+			logger.add("templatecli use template_name version[optional]")
 
 			# check if template_use.prj defined
 			template_use_file = 'template_use.prj'
 			template_use_dash = nil
 			if !File.exist?(template_use_file)
 				template_use_dash = Io.init_template_use_file(name, version)
+				logger.add("#{template_use_file} created.", 1)
 			else
 				template_use_dash = Io.append_template_use_file(name, version)
-
 			end
 
-			puts "execute use #{name} #{version}"
-
-			# Download templates
-			# Get the template information from center
-			# Download templates from git to ./.templates
-			# Start copy progress
-
-			# Skip download templates
-			template_dash = Io.load_template_file
-			template_use_dash = Io.load_template_use_file
-
-			# copy source to destination
-			source_ary = template_dash['vocabulary']['copy']['source']
-			desination_src = template_use_dash['vocabulary']['copy']['source']
-			Io.create_directories(desination_src)
-
-			source_ary.each { |src| Io.copy_directories(src, desination_src) }
-			# copy resource to destination
-			desination_res = template_use_dash['vocabulary']['copy']['resources']
-			resource_ary = template_dash['vocabulary']['copy']['resources']
-			Io.create_directories(desination_res)
-
-			resource_ary.each { |res| Io.copy_directories(res, desination_res) }
-
-			# dependency configure
-			dependency_plugin_dash = template_dash['vocabulary']['dependency'].select { |key, value| key != 'dependencies' }
-			dependency_plugin = dependency_plugin_dash.keys[0]
-			dependency_plugin_version = dependency_plugin_dash[dependency_plugin]
-			
-			dependency_ary = template_dash['vocabulary']['dependency']['dependencies']
-			dependency_ary.each { |dependency| p "add dependency #{dependency} by #{dependency_plugin} #{dependency_plugin_version}." }
-
-			"#{template_use_file} created."
+			migration_copy = MigrationCopy.new
+			migration_copy.migrate
 		end
 
 		def self.publish
