@@ -4,6 +4,7 @@ require_relative 'core/io'
 require_relative 'template/project'
 require_relative 'template/center'
 require_relative 'tasks/migration_copy'
+require_relative 'core/logger'
 
 module Template
 
@@ -50,7 +51,7 @@ module Template
 			name 		= params[0]
 			version = params.size == 2 ? params[1] : 'latest'
 
-			logger.add("templatecli use template_name version[optional]")
+			logger.add("templatecli use #{name} #{version}")
 
 			# check if template_use.prj defined
 			template_use_file = 'template_use.yml'
@@ -61,9 +62,32 @@ module Template
 			else
 				template_use_dash = Io.append_template_use_file(name, version)
 			end
+		end
 
-			migration_copy = MigrationCopy.new
-			migration_copy.migrate
+		def self.install
+			logger = PrettyLogger.logger("main")
+
+			# check if template_use.prj defined
+			template_use_file = 'template_use.yml'
+			template_use_dash = nil
+			if !File.exist?(template_use_file)
+				logger.add_error("#{template_use_file} doesn't exits.", 1)
+				return
+			else
+				template_use_dash = Io.load_template_use_file
+				logger.add("Scan #{template_use_file}", 1)
+			end
+			
+			center_dash = Io.load_template_center?
+			center_dir = center_dash[:local]
+
+			template_use_dash["use"].each do |template|
+				template.each do |k, v|
+					logger.add("Install Template: #{k} - #{v}", 2)
+					migration_copy = MigrationCopy.new(center_dir, k)
+					migration_copy.migrate
+				end
+			end			
 		end
 
 		def self.publish

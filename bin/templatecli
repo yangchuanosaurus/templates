@@ -3,8 +3,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
 
 require 'templatecli'
-# require_relative '../lib/templatecli'
-# require_relative '../lib/core/logger'
+#require_relative '../lib/templatecli'
 
 @logger = PrettyLogger.logger("main")
 
@@ -13,13 +12,14 @@ def usage
 	@logger.add("init    | templatecli init name version", 1)
 	@logger.add("init    | templatecli init as center", 1)
 	@logger.add("use     | templatecli use name version", 1)
+	@logger.add("install | templatecli install", 1)
 	@logger.add("info    | templatecli info", 1)
 	@logger.add("publish | templatecli publish", 1)
 	@logger.log
 	exit(1)
 end
 
-VERBS = ['init', 'use', 'publish', 'info']
+VERBS = ['init', 'use', 'install', 'publish', 'info']
 
 if VERBS.include? ARGV.first
   @verb = ARGV.shift

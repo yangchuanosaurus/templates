@@ -19,6 +19,11 @@ module Template
 			self.load_yaml(template_file)
 		end
 
+		def self.load_template_center_file(center_dir, template_name)
+			template_file = "#{center_dir}/#{template_name}/template.yml"
+			self.load_yaml(template_file)
+		end
+
 		def self.load_yaml(file)
 			YAML.load_file(file)
 		end
