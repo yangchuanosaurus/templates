@@ -2,9 +2,9 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
 
-#require 'templatecli'
-require_relative '../lib/templatecli'
-require_relative '../lib/core/logger'
+require 'templatecli'
+# require_relative '../lib/templatecli'
+# require_relative '../lib/core/logger'
 
 @logger = PrettyLogger.logger("main")
 

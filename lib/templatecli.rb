@@ -53,7 +53,7 @@ module Template
 			logger.add("templatecli use template_name version[optional]")
 
 			# check if template_use.prj defined
-			template_use_file = 'template_use.prj'
+			template_use_file = 'template_use.yml'
 			template_use_dash = nil
 			if !File.exist?(template_use_file)
 				template_use_dash = Io.init_template_use_file(name, version)

@@ -5,7 +5,7 @@ module Template
 	class Io
 
 		def self.init_template_file(content)
-			template_file = "./template.prj"
+			template_file = "./template.yml"
 			mode = "w"
 			File.open(template_file, mode) do |file|
 				file.puts content
@@ -15,7 +15,7 @@ module Template
 		end
 
 		def self.load_template_file
-			template_file = "./template.prj"
+			template_file = "./template.yml"
 			self.load_yaml(template_file)
 		end
 
@@ -24,12 +24,12 @@ module Template
 		end
 
 		def self.load_template_use_file
-			template_use_file = './template_use.prj'
+			template_use_file = './template_use.yml'
 			self.load_yaml(template_use_file)
 		end
 
 		def self.init_template_use_file(name, version)
-			template_use_file = './template_use.prj'
+			template_use_file = './template_use.yml'
 			use_content = {
 				'use' => [
 					name => version
@@ -78,7 +78,7 @@ module Template
 		end
 
 		def self.append_template_use_file(name, version)
-			template_use_file = './template_use.prj'
+			template_use_file = './template_use.yml'
 			use_dash = YAML.load_file(template_use_file)
 			use_template_ary = use_dash['use']
 

@@ -1,8 +1,0 @@
----
-use:
-- name: latest
-- name2: latest
-vocabulary:
-  copy:
-    source: main/src/java
-    resources: main/src/resources
