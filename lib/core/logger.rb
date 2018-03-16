@@ -9,12 +9,14 @@ module PrettyLogger
 	end
 
 	class Log
-		attr_reader :tag
+		attr_reader :tag, :level
+		attr_writer :level
 
 		def initialize(tag)
 			@tag = tag
 			@msgs = Array.new
 			@error_msgs = Array.new
+			@level = 0
 		end
 
 		def add(msg, level=0)
