@@ -25,6 +25,7 @@ module Template
 				
 				v.map do |des, value|
 					clazz_migration = "Migration#{task[0].upcase}#{task[1..-1]}#{des[0].upcase}#{des[1..-1]}"
+
 					if !Template.const_defined?(clazz_migration)
 						logger.add_error("#{task} of #{des} not defined.", @logger.level + 1)
 					else
